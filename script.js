@@ -27,6 +27,12 @@ const OPERATOR_FNS = {
     '/': div,
 };
 
+const OP_TO_OP_STR = {
+    '+': '+',
+    '-': '-',
+    '*': '×',
+    '/': '÷',
+}
 
 function operate(op, num1, num2) {
     return OPERATOR_FNS[op](num1, num2);
@@ -34,28 +40,27 @@ function operate(op, num1, num2) {
 
 
 const calc = {
-    num1: 0,
-    num2: 0,
+    num1: null,
+    num2: null,
     op: null,
     opJustPressed: false,
 
     equals: false,
-
-    _display: '',
-    _displayHistory: '',
+    equalsJustPressed: false,
 
     get display() {
-        return this._display;
+        const display = document.querySelector('.display');
+        return display.textContent;
     },
 
     set display(txt) {
-        this._display = txt;
         const display = document.querySelector('.display');
         display.textContent = txt;
     },
 
     get displayHistory() {
-        return this._displayHistory;
+        const displayHistory = document.querySelector('.displayHistory');
+        return displayHistory.textContent;
     },
 
     set displayHistory(txt) {
@@ -78,24 +83,96 @@ const calc = {
         if (this.opJustPressed) {
             this.display = '';
             this.opJustPressed = false;
+            if (this.equalsJustPressed) {
+                this.equalsJustPressed = false;
+            }
+        }
+        else if (this.equalsJustPressed) {
+            this.num1 = null;
+            this.num2 = null;
+            this.display = '';
+            this.displayHistory = '';
+            this.equalsJustPressed = false;
         }
         this.appendDisplay(numStr);
     },
 
     btnOp(event) {
-        const op = event.target.dataset.op;
-        const opTxt = event.target.textContent;
-        this.op = op;
-        this.opJustPressed = true;
-        this.num1 = Number(this.display);
-        this.displayHistory = `${this.display} ${opTxt}`;
+        if (!this.num1) {
+            this.num1 = Number(this.display);
+            this.num2 = 0;
+
+            const op = event.target.dataset.op;
+            const opTxt = event.target.textContent;
+
+            this.op = op;
+            this.opJustPressed = true;
+            this.displayHistory = `${this.num1} ${opTxt}`;
+        }
+
+        else if (this.opJustPressed) {
+            const op = event.target.dataset.op;
+            if (this.op === op) {
+                return;
+            }
+            const opTxt = event.target.textContent;
+            this.op = op;
+            this.displayHistory = `${this.display} ${opTxt}`;
+        }
+        else if (this.equalsJustPressed) {
+            this.num1 = Number(this.display);
+            this.num2 = 0;
+
+            const op = event.target.dataset.op;
+            const opTxt = event.target.textContent;
+
+            this.op = op;
+            this.opJustPressed = true;
+            this.displayHistory = `${this.display} ${opTxt}`;
+
+            this.equalsJustPressed = false;
+        }
+        else if (this.num1) {
+            this.btnEquals();
+            this.num1 = Number(this.display);
+            this.num2 = 0;
+
+            const op = event.target.dataset.op;
+            const opTxt = event.target.textContent;
+
+            this.op = op;
+            this.opJustPressed = true;
+            this.displayHistory = `${this.display} ${opTxt}`;
+        }
+        else {
+            this.op = op;
+            this.opJustPressed = true;
+            this.num1 = Number(this.display);
+            this.displayHistory = `${this.display} ${opTxt}`;
+        }
     },
 
     btnEquals() {
-        this.num2 = Number(this.display);
-        this.displayHistory = '';
-        const result = operate(this.op, this.num1, this.num2);
+
+        if (this.num2 === null){
+            this.displayHistory = `${this.display} =`;
+            this.display = String(this.display);
+            this.equalsJustPressed = true;
+            return;
+        }
+
+        if (this.equalsJustPressed) {
+            this.num1 = Number(this.display);
+        }
+        else {
+            this.num2 = Number(this.display);
+        }
+        this.displayHistory = `${this.num1} ${OP_TO_OP_STR[this.op]} ${this.num2} =`;
+        result = operate(this.op, this.num1, this.num2);
         this.display = String(result);
+
+        this.equalsJustPressed = true;
+        
     }
 
 }
