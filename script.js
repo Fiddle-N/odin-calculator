@@ -69,12 +69,19 @@ const calc = {
         displayHistory.textContent = txt;
     },
 
-    appendDisplay(digit) {
+    appendDisplayDigit(digit) {
         if (this.display === '0') {
             this.display = digit;
         }
         else {
             this.display += digit;
+        }
+    },
+
+    removeDisplayDigit() {
+        this.display = this.display.slice(0, -1);
+        if (this.display === '') {
+            this.display = '0';
         }
     },
 
@@ -94,7 +101,7 @@ const calc = {
             this.displayHistory = '';
             this.equalsJustPressed = false;
         }
-        this.appendDisplay(numStr);
+        this.appendDisplayDigit(numStr);
     },
 
     btnOp(event) {
@@ -173,6 +180,31 @@ const calc = {
 
         this.equalsJustPressed = true;
         
+    },
+
+    btnBackspace() {
+        if (this.opJustPressed) {
+            return;
+        }
+
+        if (this.equalsJustPressed) {
+            this.displayHistory = ''
+            return;
+        }
+
+        this.removeDisplayDigit();
+    },
+
+    btnCE() {
+        if (this.equalsJustPressed) {
+            this.displayHistory = ''
+        }
+        this.display = '0';
+    },
+
+    btnC() {
+        this.displayHistory = '';
+        this.display = '0';
     }
 
 }
@@ -191,6 +223,15 @@ function main() {
 
     const btnEquals = document.querySelector('.keys-equals');
     btnEquals.addEventListener('click', () => calc.btnEquals())
+
+    const btnBackspace = document.querySelector('#keys-backspace');
+    btnBackspace.addEventListener('click', () => calc.btnBackspace())
+
+    const btnCE = document.querySelector('#keys-CE');
+    btnCE.addEventListener('click', () => calc.btnCE())
+
+    const btnC = document.querySelector('#keys-C');
+    btnC.addEventListener('click', () => calc.btnC())
 }
 
 
