@@ -161,7 +161,8 @@ const calc = {
 
     btnOp(event) {
         const op = event.target.dataset.op;
-        const opTxt = event.target.textContent;
+        const opTxt = OP_TO_OP_STR[op];
+
     
         if (!(this.state === CALC_STATES.OP_PRESSED)) {
             if (this.num1 && (!this.state === CALC_STATES.EQUALS_PRESSED)) {
