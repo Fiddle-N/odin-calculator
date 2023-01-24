@@ -107,98 +107,65 @@ const calc = {
         }
     },
 
+    _reset() {
+        this.num1 = null;
+        this.num2 = null;
+        this.op = null;
+        this.displayHistory = '';
+        this.display = '0';
+        this.state = null;
+    },
+
+    _zeroDivReset() {
+        this._reset();
+        this.enableKeyUponZeroDiv();
+    },
+
     btnNum(event) {
-        if (this.zeroDiv) {
-            this.btnC();
-            this.enableKeyUponZeroDiv()
-            this.zeroDiv = false;
+        const numStr = event.target.textContent;
+
+        if (this.state === CALC_STATES.ZERO_DIV) {
+            this._zeroDivReset();
+        }
+        
+        else if (this.state === CALC_STATES.OP_PRESSED) {
+            this.display = '';
+
+        }
+        else if (this.state === CALC_STATES.EQUALS_PRESSED) {
+            this._reset()
+
         }
 
-        const numStr = event.target.textContent;
-        if (this.opJustPressed) {
-            this.display = '';
-            this.opJustPressed = false;
-            if (this.equalsJustPressed) {
-                this.equalsJustPressed = false;
-            }
-        }
-        else if (this.equalsJustPressed) {
-            this.num1 = null;
-            this.num2 = null;
-            this.display = '';
-            this.displayHistory = '';
-            this.equalsJustPressed = false;
-        }
         this.appendDisplayDigit(numStr);
         this.state = CALC_STATES.NUM_PRESSED;
     },
 
-    btnOp(event) {      
-        if (!this.num1) {
-            this.num1 = Number(this.display);
-            this.num2 = null;
-
-            const op = event.target.dataset.op;
-            const opTxt = event.target.textContent;
-
-            this.op = op;
-            this.opJustPressed = true;
-            this.displayHistory = `${this.num1} ${opTxt}`;
-        }
-
-        else if (this.opJustPressed) {
-            const op = event.target.dataset.op;
-            if (this.op === op) {
-                return;
+    btnOp(event) {
+        const op = event.target.dataset.op;
+        const opTxt = event.target.textContent;
+    
+        if (!(this.state === CALC_STATES.OP_PRESSED)) {
+            if (this.num1 && (!this.state === CALC_STATES.EQUALS_PRESSED)) {
+                this.btnEquals();
+                if (this.state === CALC_STATES.ZERO_DIV) {
+                    this.displayHistory = `${this.num1} ${OP_TO_OP_STR[this.op]} ${this.num2} ${opTxt}`;
+                    return;
+                } 
+                
             }
-            const opTxt = event.target.textContent;
-            this.op = op;
-            this.displayHistory = `${this.display} ${opTxt}`;
-        }
-        else if (this.equalsJustPressed) {
             this.num1 = Number(this.display);
             this.num2 = null;
-
-            const op = event.target.dataset.op;
-            const opTxt = event.target.textContent;
-
-            this.op = op;
-            this.opJustPressed = true;
-            this.displayHistory = `${this.display} ${opTxt}`;
-
-            this.equalsJustPressed = false;
         }
-        else if (this.num1) {
-            const op = event.target.dataset.op;
-            const opTxt = event.target.textContent;
 
-            this.btnEquals();
-            if (this.zeroDiv) {
-                this.displayHistory = `${this.num1} ${OP_TO_OP_STR[this.op]} ${this.num2} ${opTxt}`;
-                return;
-            } 
-
-            this.num1 = Number(this.display);
-            this.num2 = null;
-
-            this.op = op;
-            this.opJustPressed = true;
-            this.displayHistory = `${this.display} ${opTxt}`;
-        }
-        else {
-            this.op = op;
-            this.opJustPressed = true;
-            this.num1 = Number(this.display);
-            this.displayHistory = `${this.display} ${opTxt}`;
-        }
+        this.displayHistory = `${this.num1} ${opTxt}`;
+        this.op = op;
         this.state = CALC_STATES.OP_PRESSED;
     },
 
     btnEquals() {
-        if (this.zeroDiv) {
-            this.btnC();
-            this.enableKeyUponZeroDiv();
-            this.zeroDiv = false;
+        if (this.state === CALC_STATES.ZERO_DIV) {
+            this._zeroDivReset();
             return;
         }
 
@@ -206,19 +173,18 @@ const calc = {
             this.num2 = Number(this.display);
             this.display = 'Cannot divide by zero';
             this.disableKeyUponZeroDiv();
-            this.zeroDiv = true;
+            this.state = CALC_STATES.ZERO_DIV;
             return;
         }
 
         if (!this.op){
             this.displayHistory = `${this.display} =`;
             this.display = String(this.display);
-            this.equalsJustPressed = true;
             this.state = CALC_STATES.EQUALS_PRESSED;
             return;
         }
 
-        if (this.equalsJustPressed) {
+        if (this.state === CALC_STATES.EQUALS_PRESSED) {
             this.num1 = Number(this.display);
         }
         else {
@@ -228,57 +194,43 @@ const calc = {
         result = operate(this.op, this.num1, this.num2);
         this.display = String(result);
 
-        this.equalsJustPressed = true;
-        this.state = CALC_STATES.EQUALS_PRESSED;
-        
+        this.state = CALC_STATES.EQUALS_PRESSED;    
     },
 
     btnBackspace() {
-        if (this.zeroDiv) {
-            this.btnC();
-            this.enableKeyUponZeroDiv();
-            this.zeroDiv = false;
-            return;
+        if (this.state === CALC_STATES.ZERO_DIV) {
+            this._zeroDivReset();
         }
 
-        if (this.opJustPressed) {
-            return;
-        }
-
-        if (this.equalsJustPressed) {
+        else if (this.state === CALC_STATES.EQUALS_PRESSED) {
             this.displayHistory = '';
-            return;
         }
 
-        this.removeDisplayDigit();
+        else if (!(this.state === CALC_STATES.OP_PRESSED)){
+            this.removeDisplayDigit();
+        }
     },
 
     btnCE() {
-        if (this.zeroDiv) {
-            this.btnC();
-            this.enableKeyUponZeroDiv();
-            this.zeroDiv = false;
+        if (this.state === CALC_STATES.ZERO_DIV) {
+            this._zeroDivReset();
             return;
         }
 
-        if (this.equalsJustPressed) {
+        if (this.state === CALC_STATES.EQUALS_PRESSED) {
             this.displayHistory = '';
         }
         this.display = '0';
     },
 
     btnC() {
-        if (this.zeroDiv) {
-            this.enableKeyUponZeroDiv();
-            this.zeroDiv = false;
+        if (this.state === CALC_STATES.ZERO_DIV) {
+            this._zeroDivReset();
         }
-        this.num1 = null;
-        this.num2 = null;
-        this.op = null;
-        this.displayHistory = '';
-        this.display = '0';
-        this.state = null;
-    }
+        else {
+            this._reset();
+        }
+    },
 
 }
 
