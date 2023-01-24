@@ -45,17 +45,8 @@ const CALC_STATES = {
     ZERO_DIV: 3,
 }
 
-const calc = {
-    num1: null,
-    num2: null,
-    op: null,
 
-    state: null,
-
-    opJustPressed: false,
-    equalsJustPressed: false,
-    zeroDiv: false,
-
+const calcUIUpdate = {
     get display() {
         const display = document.querySelector('.display');
         return display.textContent;
@@ -77,15 +68,6 @@ const calc = {
         displayHistory.textContent = txt;
     },
 
-    appendDisplayDigit(digit) {
-        if (this.display === '0') {
-            this.display = digit;
-        }
-        else {
-            this.display += digit;
-        }
-    },
-
     disableKeyUponZeroDiv() {
         const keysToBeDisabled = document.querySelectorAll('.keys-disableOnZeroDivision');
         for (const key of keysToBeDisabled) {
@@ -100,7 +82,43 @@ const calc = {
         }
     },
 
-    removeDisplayDigit() {
+};
+
+const calc = {
+    num1: null,
+    num2: null,
+    op: null,
+    state: null,
+
+    calcUIUpdate,
+
+
+    get display() {
+        return this.calcUIUpdate.display;
+    },
+
+    set display(txt) {
+        this.calcUIUpdate.display = txt;
+    },
+
+    get displayHistory() {
+        return this.calcUIUpdate.displayHistory;
+    },
+
+    set displayHistory(txt) {
+        this.calcUIUpdate.displayHistory = txt;
+    },
+
+    _appendDisplayDigit(digit) {
+        if (this.display === '0') {
+            this.display = digit;
+        }
+        else {
+            this.display += digit;
+        }
+    },
+
+    _removeDisplayDigit() {
         this.display = this.display.slice(0, -1);
         if (this.display === '') {
             this.display = '0';
@@ -118,7 +136,7 @@ const calc = {
 
     _zeroDivReset() {
         this._reset();
-        this.enableKeyUponZeroDiv();
+        this.calcUIUpdate.enableKeyUponZeroDiv();
     },
 
     btnNum(event) {
@@ -137,7 +155,7 @@ const calc = {
 
         }
 
-        this.appendDisplayDigit(numStr);
+        this._appendDisplayDigit(numStr);
         this.state = CALC_STATES.NUM_PRESSED;
     },
 
@@ -172,7 +190,7 @@ const calc = {
         if (this.op === '/' && this.display === '0'){
             this.num2 = Number(this.display);
             this.display = 'Cannot divide by zero';
-            this.disableKeyUponZeroDiv();
+            this.calcUIUpdate.disableKeyUponZeroDiv();
             this.state = CALC_STATES.ZERO_DIV;
             return;
         }
@@ -207,7 +225,7 @@ const calc = {
         }
 
         else if (!(this.state === CALC_STATES.OP_PRESSED)){
-            this.removeDisplayDigit();
+            this._removeDisplayDigit();
         }
     },
 
