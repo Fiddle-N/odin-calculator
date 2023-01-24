@@ -48,6 +48,8 @@ const calc = {
     equals: false,
     equalsJustPressed: false,
 
+    zeroDiv: false,
+
     get display() {
         const display = document.querySelector('.display');
         return display.textContent;
@@ -78,6 +80,20 @@ const calc = {
         }
     },
 
+    disableKeyUponZeroDiv() {
+        const keysToBeDisabled = document.querySelectorAll('.keys-disableOnZeroDivision');
+        for (const key of keysToBeDisabled) {
+            key.disabled = true;
+        }
+    },
+
+    enableKeyUponZeroDiv() {
+        const keysToBeDisabled = document.querySelectorAll('.keys-disableOnZeroDivision');
+        for (const key of keysToBeDisabled) {
+            key.disabled = false;
+        }
+    },
+
     removeDisplayDigit() {
         this.display = this.display.slice(0, -1);
         if (this.display === '') {
@@ -86,6 +102,12 @@ const calc = {
     },
 
     btnNum(event) {
+        if (this.zeroDiv) {
+            this.btnC();
+            this.enableKeyUponZeroDiv()
+            this.zeroDiv = false;
+        }
+
         const numStr = event.target.textContent;
         if (this.opJustPressed) {
             this.display = '';
@@ -104,10 +126,10 @@ const calc = {
         this.appendDisplayDigit(numStr);
     },
 
-    btnOp(event) {
+    btnOp(event) {      
         if (!this.num1) {
             this.num1 = Number(this.display);
-            this.num2 = 0;
+            this.num2 = null;
 
             const op = event.target.dataset.op;
             const opTxt = event.target.textContent;
@@ -128,7 +150,7 @@ const calc = {
         }
         else if (this.equalsJustPressed) {
             this.num1 = Number(this.display);
-            this.num2 = 0;
+            this.num2 = null;
 
             const op = event.target.dataset.op;
             const opTxt = event.target.textContent;
@@ -140,12 +162,17 @@ const calc = {
             this.equalsJustPressed = false;
         }
         else if (this.num1) {
-            this.btnEquals();
-            this.num1 = Number(this.display);
-            this.num2 = 0;
-
             const op = event.target.dataset.op;
             const opTxt = event.target.textContent;
+
+            this.btnEquals();
+            if (this.zeroDiv) {
+                this.displayHistory = `${self.num1} ${OP_TO_OP_STR[this.op]} ${this.num2} ${opTxt}`;
+                return;
+            } 
+
+            this.num1 = Number(this.display);
+            this.num2 = null;
 
             this.op = op;
             this.opJustPressed = true;
@@ -160,8 +187,21 @@ const calc = {
     },
 
     btnEquals() {
+        if (this.zeroDiv) {
+            this.btnC();
+            this.enableKeyUponZeroDiv()
+            this.zeroDiv = false;
+            return;
+        }
 
-        if (this.num2 === null){
+        if (this.op === '/' && this.num2 === 0){
+            this.display = 'Cannot divide by zero';
+            this.disableKeyUponZeroDiv();
+            this.zeroDiv = true;
+            return;
+        }
+
+        if (!this.op){
             this.displayHistory = `${this.display} =`;
             this.display = String(this.display);
             this.equalsJustPressed = true;
@@ -183,6 +223,13 @@ const calc = {
     },
 
     btnBackspace() {
+        if (this.zeroDiv) {
+            this.btnC();
+            this.enableKeyUponZeroDiv()
+            this.zeroDiv = false;
+            return;
+        }
+
         if (this.opJustPressed) {
             return;
         }
@@ -196,6 +243,13 @@ const calc = {
     },
 
     btnCE() {
+        if (this.zeroDiv) {
+            this.btnC();
+            this.enableKeyUponZeroDiv()
+            this.zeroDiv = false;
+            return;
+        }
+
         if (this.equalsJustPressed) {
             this.displayHistory = ''
         }
@@ -203,6 +257,13 @@ const calc = {
     },
 
     btnC() {
+        if (this.zeroDiv) {
+            this.enableKeyUponZeroDiv()
+            this.zeroDiv = false;
+        }
+        this.num1 = null;
+        this.num2 = null;
+        this.op = null;
         this.displayHistory = '';
         this.display = '0';
     }
