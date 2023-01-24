@@ -38,16 +38,22 @@ function operate(op, num1, num2) {
     return OPERATOR_FNS[op](num1, num2);
 }
 
+const CALC_STATES = {
+    NUM_PRESSED: 0,
+    OP_PRESSED: 1,
+    EQUALS_PRESSED: 2,
+    ZERO_DIV: 3,
+}
 
 const calc = {
     num1: null,
     num2: null,
     op: null,
+
+    state: null,
+
     opJustPressed: false,
-
-    equals: false,
     equalsJustPressed: false,
-
     zeroDiv: false,
 
     get display() {
@@ -124,6 +130,7 @@ const calc = {
             this.equalsJustPressed = false;
         }
         this.appendDisplayDigit(numStr);
+        this.state = CALC_STATES.NUM_PRESSED;
     },
 
     btnOp(event) {      
@@ -167,7 +174,7 @@ const calc = {
 
             this.btnEquals();
             if (this.zeroDiv) {
-                this.displayHistory = `${self.num1} ${OP_TO_OP_STR[this.op]} ${this.num2} ${opTxt}`;
+                this.displayHistory = `${this.num1} ${OP_TO_OP_STR[this.op]} ${this.num2} ${opTxt}`;
                 return;
             } 
 
@@ -184,17 +191,19 @@ const calc = {
             this.num1 = Number(this.display);
             this.displayHistory = `${this.display} ${opTxt}`;
         }
+        this.state = CALC_STATES.OP_PRESSED;
     },
 
     btnEquals() {
         if (this.zeroDiv) {
             this.btnC();
-            this.enableKeyUponZeroDiv()
+            this.enableKeyUponZeroDiv();
             this.zeroDiv = false;
             return;
         }
 
-        if (this.op === '/' && this.num2 === 0){
+        if (this.op === '/' && this.display === '0'){
+            this.num2 = Number(this.display);
             this.display = 'Cannot divide by zero';
             this.disableKeyUponZeroDiv();
             this.zeroDiv = true;
@@ -205,6 +214,7 @@ const calc = {
             this.displayHistory = `${this.display} =`;
             this.display = String(this.display);
             this.equalsJustPressed = true;
+            this.state = CALC_STATES.EQUALS_PRESSED;
             return;
         }
 
@@ -219,13 +229,14 @@ const calc = {
         this.display = String(result);
 
         this.equalsJustPressed = true;
+        this.state = CALC_STATES.EQUALS_PRESSED;
         
     },
 
     btnBackspace() {
         if (this.zeroDiv) {
             this.btnC();
-            this.enableKeyUponZeroDiv()
+            this.enableKeyUponZeroDiv();
             this.zeroDiv = false;
             return;
         }
@@ -235,7 +246,7 @@ const calc = {
         }
 
         if (this.equalsJustPressed) {
-            this.displayHistory = ''
+            this.displayHistory = '';
             return;
         }
 
@@ -245,20 +256,20 @@ const calc = {
     btnCE() {
         if (this.zeroDiv) {
             this.btnC();
-            this.enableKeyUponZeroDiv()
+            this.enableKeyUponZeroDiv();
             this.zeroDiv = false;
             return;
         }
 
         if (this.equalsJustPressed) {
-            this.displayHistory = ''
+            this.displayHistory = '';
         }
         this.display = '0';
     },
 
     btnC() {
         if (this.zeroDiv) {
-            this.enableKeyUponZeroDiv()
+            this.enableKeyUponZeroDiv();
             this.zeroDiv = false;
         }
         this.num1 = null;
@@ -266,6 +277,7 @@ const calc = {
         this.op = null;
         this.displayHistory = '';
         this.display = '0';
+        this.state = null;
     }
 
 }
