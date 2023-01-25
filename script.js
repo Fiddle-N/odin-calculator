@@ -253,8 +253,19 @@ const calc = {
 
 }
 
+function setOpDisplay() {
+    const btnOps = document.querySelectorAll('.keys-operator');
+    for (const btnOp of btnOps) {
+        btnOp.textContent = OP_TO_OP_STR[btnOp.dataset.op];
+    }
+}
+
 
 function main() {
+    setOpDisplay();
+
+    //
+
     const btnNums = document.querySelectorAll('.keys-digit');
     for (const btnNum of btnNums) {
         btnNum.addEventListener('click', (event) => calc.btnNum(event));
