@@ -47,37 +47,34 @@ const CALC_STATES = {
 
 
 const calcUIUpdate = {
+    _display: document.querySelector('.display'),
+    _displayHistory: document.querySelector('.displayHistory'),
+    _zeroDivDisableKeys: document.querySelectorAll('.keys-disableOnZeroDivision'),
+
     get display() {
-        const display = document.querySelector('.display');
-        return display.textContent;
+        return this._display.textContent;
     },
 
     set display(txt) {
-        const display = document.querySelector('.display');
-        display.textContent = txt;
+        this._display.textContent = txt;
     },
 
     get displayHistory() {
-        const displayHistory = document.querySelector('.displayHistory');
-        return displayHistory.textContent;
+        return this._displayHistory.textContent;
     },
 
     set displayHistory(txt) {
-        this._displayHistory = txt;
-        const displayHistory = document.querySelector('.displayHistory');
-        displayHistory.textContent = txt;
+        this._displayHistory.textContent = txt;
     },
 
     disableKeyUponZeroDiv() {
-        const keysToBeDisabled = document.querySelectorAll('.keys-disableOnZeroDivision');
-        for (const key of keysToBeDisabled) {
+        for (const key of this._zeroDivDisableKeys) {
             key.disabled = true;
         }
     },
 
     enableKeyUponZeroDiv() {
-        const keysToBeDisabled = document.querySelectorAll('.keys-disableOnZeroDivision');
-        for (const key of keysToBeDisabled) {
+        for (const key of this._zeroDivDisableKeys) {
             key.disabled = false;
         }
     },
@@ -159,14 +156,14 @@ const calc = {
         this.state = CALC_STATES.NUM_PRESSED;
     },
 
-    btnOp(event) {
+    btnOp(_) {
         const op = event.target.dataset.op;
         const opTxt = OP_TO_OP_STR[op];
 
     
         if (!(this.state === CALC_STATES.OP_PRESSED)) {
-            if (this.num1 && (!this.state === CALC_STATES.EQUALS_PRESSED)) {
-                this.btnEquals();
+            if (this.num1 && !(this.state === CALC_STATES.EQUALS_PRESSED)) {
+                this.btnEquals(null);
                 if (this.state === CALC_STATES.ZERO_DIV) {
                     this.displayHistory = `${this.num1} ${OP_TO_OP_STR[this.op]} ${this.num2} ${opTxt}`;
                     return;
@@ -182,7 +179,7 @@ const calc = {
         this.state = CALC_STATES.OP_PRESSED;
     },
 
-    btnEquals() {
+    btnEquals(_) {
         if (this.state === CALC_STATES.ZERO_DIV) {
             this._zeroDivReset();
             return;
@@ -230,7 +227,7 @@ const calc = {
         }
     },
 
-    btnCE() {
+    btnCE(_) {
         if (this.state === CALC_STATES.ZERO_DIV) {
             this._zeroDivReset();
             return;
@@ -242,7 +239,7 @@ const calc = {
         this.display = '0';
     },
 
-    btnC() {
+    btnC(_) {
         if (this.state === CALC_STATES.ZERO_DIV) {
             this._zeroDivReset();
         }
@@ -260,33 +257,29 @@ function setOpDisplay() {
     }
 }
 
+function setEventListeners() {
+    const selectorEventListeners = {
+        '.keys-digit': 'btnNum',
+        '.keys-operator': 'btnOp',
+        '.keys-equals': 'btnEquals',
+        '#keys-backspace': 'btnBackspace',
+        '#keys-CE': 'btnCE',
+        '#keys-C': 'btnC',
+    }
+
+    for (const selector in selectorEventListeners) {
+        const eventListener = selectorEventListeners[selector];
+        const elements = document.querySelectorAll(selector);
+        for (const element of elements) {
+            element.addEventListener('click', (event) => calc[eventListener](event))
+        }
+    }   
+}
+
 
 function main() {
     setOpDisplay();
-
-    //
-
-    const btnNums = document.querySelectorAll('.keys-digit');
-    for (const btnNum of btnNums) {
-        btnNum.addEventListener('click', (event) => calc.btnNum(event));
-    }
-
-    const btnOps = document.querySelectorAll('.keys-operator');
-    for (const btnOp of btnOps) {
-        btnOp.addEventListener('click', (event) => calc.btnOp(event));
-    }
-
-    const btnEquals = document.querySelector('.keys-equals');
-    btnEquals.addEventListener('click', () => calc.btnEquals())
-
-    const btnBackspace = document.querySelector('#keys-backspace');
-    btnBackspace.addEventListener('click', () => calc.btnBackspace())
-
-    const btnCE = document.querySelector('#keys-CE');
-    btnCE.addEventListener('click', () => calc.btnCE())
-
-    const btnC = document.querySelector('#keys-C');
-    btnC.addEventListener('click', () => calc.btnC())
+    setEventListeners();
 }
 
 
