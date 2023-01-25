@@ -136,8 +136,8 @@ const calc = {
         this.calcUIUpdate.enableKeyUponZeroDiv();
     },
 
-    btnNum(event) {
-        const numStr = event.target.textContent;
+    btnNum(even) {
+        const numStr = even.target.textContent;
 
         if (this.state === CALC_STATES.ZERO_DIV) {
             this._zeroDivReset();
@@ -271,7 +271,7 @@ function setEventListeners() {
         const eventListener = selectorEventListeners[selector];
         const elements = document.querySelectorAll(selector);
         for (const element of elements) {
-            element.addEventListener('click', (event) => calc[eventListener](event))
+            element.addEventListener('click', (even) => calc[eventListener](even))
         }
     }   
 }
