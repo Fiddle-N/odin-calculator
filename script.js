@@ -136,8 +136,8 @@ const calc = {
         this.calcUIUpdate.enableKeyUponZeroDiv();
     },
 
-    btnNum(even) {
-        const numStr = even.target.textContent;
+    btnNum(event) {
+        const numStr = event.target.textContent;
 
         if (this.state === CALC_STATES.ZERO_DIV) {
             this._zeroDivReset();
@@ -156,7 +156,7 @@ const calc = {
         this.state = CALC_STATES.NUM_PRESSED;
     },
 
-    btnOp(_) {
+    btnOp(event) {
         const op = event.target.dataset.op;
         const opTxt = OP_TO_OP_STR[op];
 
@@ -213,7 +213,7 @@ const calc = {
         this.state = CALC_STATES.EQUALS_PRESSED;    
     },
 
-    btnBackspace() {
+    btnBackspace(_) {
         if (this.state === CALC_STATES.ZERO_DIV) {
             this._zeroDivReset();
         }
@@ -271,7 +271,7 @@ function setEventListeners() {
         const eventListener = selectorEventListeners[selector];
         const elements = document.querySelectorAll(selector);
         for (const element of elements) {
-            element.addEventListener('click', (even) => calc[eventListener](even))
+            element.addEventListener('click', (event) => calc[eventListener](event))
         }
     }   
 }
