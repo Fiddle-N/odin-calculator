@@ -157,7 +157,7 @@ const calc = {
     },
 
     btnOp(event) {
-        const op = event.target.dataset.op;
+        const op = event.target.dataset.symbol;
         const opTxt = OP_TO_OP_STR[op];
 
     
@@ -250,10 +250,12 @@ const calc = {
 
 }
 
-function setOpDisplay() {
-    const btnOps = document.querySelectorAll('.keys-operator');
-    for (const btnOp of btnOps) {
-        btnOp.textContent = OP_TO_OP_STR[btnOp.dataset.op];
+function setKeyTxt() {
+    const keys = document.querySelectorAll('.keys-key');
+    for (const key of keys) {
+        const keySymbol = key.dataset.symbol;
+        const txt = (keySymbol in OP_TO_OP_STR) ? OP_TO_OP_STR[keySymbol] : keySymbol;
+        key.textContent = txt;
     }
 }
 
@@ -278,7 +280,7 @@ function setEventListeners() {
 
 
 function main() {
-    setOpDisplay();
+    setKeyTxt();
     setEventListeners();
 }
 
