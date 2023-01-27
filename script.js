@@ -32,7 +32,7 @@ const OP_TO_OP_STR = {
     '-': '-',
     '*': '×',
     '/': '÷',
-}
+};
 
 function operate(op, num1, num2) {
     return OPERATOR_FNS[op](num1, num2);
@@ -43,7 +43,7 @@ const CALC_STATES = {
     OP_PRESSED: 1,
     EQUALS_PRESSED: 2,
     ZERO_DIV: 3,
-}
+};
 
 
 const calcUIUpdate = {
@@ -248,7 +248,7 @@ const calc = {
         }
     },
 
-}
+};
 
 function setKeyTxt() {
     const keys = document.querySelectorAll('.keys-key');
@@ -273,7 +273,7 @@ function setEventListeners() {
         const eventListener = selectorEventListeners[selector];
         const elements = document.querySelectorAll(selector);
         for (const element of elements) {
-            element.addEventListener('click', (event) => calc[eventListener](event))
+            element.addEventListener('click', (event) => calc[eventListener](event));
         }
     }   
 }
