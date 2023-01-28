@@ -1,3 +1,4 @@
+"use strict";
 
 
 function add(num1, num2) {
@@ -207,7 +208,7 @@ const calc = {
             this.num2 = Number(this.display);
         }
         this.displayHistory = `${this.num1} ${OP_TO_OP_STR[this.op]} ${this.num2} =`;
-        result = operate(this.op, this.num1, this.num2);
+        const result = operate(this.op, this.num1, this.num2);
         this.display = String(result);
 
         this.state = CALC_STATES.EQUALS_PRESSED;    
@@ -259,7 +260,7 @@ function setKeyTxt() {
     }
 }
 
-function setEventListeners() {
+function setKeyEventListeners() {
     const selectorEventListeners = {
         '.keys-digit': 'btnNum',
         '.keys-operator': 'btnOp',
@@ -279,9 +280,27 @@ function setEventListeners() {
 }
 
 
+function typingEventListener(event) {
+    const symbol = (event.key === 'Enter') ? '=' : event.key
+
+    const key = document.querySelector(`.keys-key[data-symbol="${symbol}"]`);
+
+    if (key === null) {
+        return;
+    }
+    key.click();
+}
+
+
+function setTypingEventListener() {
+    window.addEventListener('keydown', typingEventListener);
+}
+
+
 function main() {
     setKeyTxt();
-    setEventListeners();
+    setKeyEventListeners();
+    setTypingEventListener();
 }
 
 
