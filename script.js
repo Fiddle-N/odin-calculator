@@ -35,6 +35,28 @@ const OP_TO_OP_STR = {
     '/': '÷',
 };
 
+const KB_KEY_TO_CALC_KEY = {
+    '0': '0',
+    '1': '1',
+    '2': '2',
+    '3': '3',
+    '4': '4',
+    '5': '5',
+    '6': '6',
+    '7': '7',
+    '8': '8',
+    '9': '9',
+    '+': '+',
+    '-': '-',
+    '*': '×',
+    '/': '÷',
+    '=': '=',
+    'Enter': '=',
+    'Backspace': '⌫',
+    'Delete': 'CE',
+    'Escape': 'C',
+}
+
 function operate(op, num1, num2) {
     return OPERATOR_FNS[op](num1, num2);
 }
@@ -281,10 +303,9 @@ function setKeyEventListeners() {
 
 
 function typingEventListener(event) {
-    const symbol = (event.key === 'Enter') ? '=' : event.key
-
-    const key = document.querySelector(`.keys-key[data-symbol="${symbol}"]`);
-
+    const key = document.querySelector(
+        `.keys-key[data-symbol="${KB_KEY_TO_CALC_KEY[event.key]}"]`
+    );
     if (key === null) {
         return;
     }
