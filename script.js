@@ -50,6 +50,7 @@ const KB_KEY_TO_CALC_KEY = {
     '-': '-',
     '*': '*',
     '/': '/',
+    'F9': '±',
     '.': '.',
     '=': '=',
     'Enter': '=',
@@ -64,10 +65,9 @@ function operate(op, num1, num2) {
 
 const CALC_STATES = {
     NUM_PRESSED: 0,
-    DECIMAL_PRESSED: 1,
-    OP_PRESSED: 2,
-    EQUALS_PRESSED: 3,
-    ZERO_DIV: 4,
+    OP_PRESSED: 1,
+    EQUALS_PRESSED: 2,
+    ZERO_DIV: 3,
 };
 
 
@@ -203,6 +203,18 @@ const calc = {
         this.op = op;
         this.state = CALC_STATES.OP_PRESSED;
     },
+    
+    btnPlusMinus(_) {
+        if (this.display === '0') {}
+        else if (this.display[0] === '-') {
+            this.display = this.display.slice(1);
+        }
+        else {
+            this.display = ('-' + this.display);
+        }
+
+        this.state = CALC_STATES.NUM_PRESSED;   // no different to pressing a digit
+    },
 
     btnDecimalPoint(_) {
         if ([null, CALC_STATES.OP_PRESSED, CALC_STATES.EQUALS_PRESSED].includes(this.state)) {
@@ -211,7 +223,7 @@ const calc = {
         else if (this.state === CALC_STATES.NUM_PRESSED && !(this.display.includes('.'))) {
             this.display += '.';
         }
-        this.state = CALC_STATES.DECIMAL_PRESSED;
+        this.state = CALC_STATES.NUM_PRESSED;   // no different to pressing a digit
     },
 
     btnEquals(_) {
@@ -297,6 +309,7 @@ function setKeyTxt() {
 function setKeyEventListeners() {
     const selectorEventListeners = {
         '.keys-digit': 'btnNum',
+        '.keys-plusMinus': 'btnPlusMinus',
         '.keys-decimalPoint': 'btnDecimalPoint',
         '.keys-operator': 'btnOp',
         '.keys-equals': 'btnEquals',
