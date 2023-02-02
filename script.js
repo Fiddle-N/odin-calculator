@@ -50,6 +50,7 @@ const KB_KEY_TO_CALC_KEY = {
     '-': '-',
     '*': '*',
     '/': '/',
+    '.': '.',
     '=': '=',
     'Enter': '=',
     'Backspace': '⌫',
@@ -63,9 +64,10 @@ function operate(op, num1, num2) {
 
 const CALC_STATES = {
     NUM_PRESSED: 0,
-    OP_PRESSED: 1,
-    EQUALS_PRESSED: 2,
-    ZERO_DIV: 3,
+    DECIMAL_PRESSED: 1,
+    OP_PRESSED: 2,
+    EQUALS_PRESSED: 3,
+    ZERO_DIV: 4,
 };
 
 
@@ -202,6 +204,16 @@ const calc = {
         this.state = CALC_STATES.OP_PRESSED;
     },
 
+    btnDecimalPoint(_) {
+        if ([null, CALC_STATES.OP_PRESSED, CALC_STATES.EQUALS_PRESSED].includes(this.state)) {
+            this.display = '0.';
+        }
+        else if (this.state === CALC_STATES.NUM_PRESSED && !(this.display.includes('.'))) {
+            this.display += '.';
+        }
+        this.state = CALC_STATES.DECIMAL_PRESSED;
+    },
+
     btnEquals(_) {
         if (this.state === CALC_STATES.ZERO_DIV) {
             this._zeroDivReset();
@@ -285,6 +297,7 @@ function setKeyTxt() {
 function setKeyEventListeners() {
     const selectorEventListeners = {
         '.keys-digit': 'btnNum',
+        '.keys-decimalPoint': 'btnDecimalPoint',
         '.keys-operator': 'btnOp',
         '.keys-equals': 'btnEquals',
         '#keys-backspace': 'btnBackspace',
