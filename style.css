@@ -12,6 +12,7 @@ body {
 }
 
 button {
+    border: none;
     font-family: inherit;
 }
 
@@ -182,4 +183,17 @@ button {
     grid-column-start: 3;
     grid-row-start: -5;
     grid-row-end: -6;
+}
+
+.keys-nonDigit {
+    background-color: hsl(0, 0%, 96%);
+}
+
+.keys-digit {
+    background-color: hsl(0, 0%, 99%);
+}
+
+.keys-equals {
+    background-color: rgb(25, 106, 167);
+    color: white;
 }
