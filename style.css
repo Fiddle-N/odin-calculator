@@ -7,6 +7,19 @@ body {
     background-color: hsl(0, 0%, 95%);
     height: 100vh;
     margin: 0;
+    font-family: 'Open Sans', sans-serif;
+    display: flex;
+}
+
+button {
+    font-family: inherit;
+}
+
+.calculator {
+    min-height: 600px;
+    min-width: 325px;
+    width: 25%;
+    margin: auto;
     display: flex;
     flex-direction: column;
 }
@@ -17,136 +30,155 @@ body {
 
 .display {
     border: 1px solid black;
-    height: 40px;   /* temporary */
+    height: 250px;   /* temporary */
 }
 
-
-
+/* 115 x 85 */
 
 .keys {
     flex-grow: 1;
     display: grid;
-    justify-content: stretch;
-    align-content: stretch;
     grid-template-rows: repeat(5, 1fr);
     grid-template-columns: repeat(4, 1fr);
 }
 
-.keys-key[data-symbol="±"] {
+.keys-keyContainer {
+    display: flex;
+    container-type: size;
+}
+
+.keys-key {
+    flex: 1;
+    font-size: 1.2rem;
+}
+
+@container (width > 115px) and (height > 85px) {
+    .keys-key {
+        font-size: 1.6rem;
+    }
+}
+
+@container (width > 195px) and (height > 135px) {
+    .keys-key {
+        font-size: 2.3rem;
+    }
+}
+
+.keys-keyContainer:has(.keys-key[data-symbol="±"]) {
     grid-column-start: 1;
     grid-row-start: -1;
     grid-row-end: -2;
 }
 
-.keys-key[data-symbol="."] {
+.keys-keyContainer:has(.keys-key[data-symbol="."]) {
     grid-column-start: 3;
     grid-row-start: -1;
     grid-row-end: -2;
 }
 
-.keys-key[data-symbol="0"] {
+.keys-keyContainer:has(.keys-key[data-symbol="0"]) {
     grid-column-start: 2;
     grid-row-start: -1;
     grid-row-end: -2;
 }
 
-.keys-key[data-symbol="1"] {
+.keys-keyContainer:has(.keys-key[data-symbol="1"]) {
     grid-column-start: 1;
     grid-row-start: -2;
     grid-row-end: -3;
 }
 
-.keys-key[data-symbol="2"] {
+.keys-keyContainer:has(.keys-key[data-symbol="2"]) {
     grid-column-start: 2;
     grid-row-start: -2;
     grid-row-end: -3;
 }
 
-.keys-key[data-symbol="3"] {
+.keys-keyContainer:has(.keys-key[data-symbol="3"]) {
     grid-column-start: 3;
     grid-row-start: -2;
     grid-row-end: -3;
 }
 
-.keys-key[data-symbol="4"] {
+.keys-keyContainer:has(.keys-key[data-symbol="4"]) {
     grid-column-start: 1;
     grid-row-start: -3;
     grid-row-end: -4;
 }
 
-.keys-key[data-symbol="5"] {
+.keys-keyContainer:has(.keys-key[data-symbol="5"]) {
     grid-column-start: 2;
     grid-row-start: -3;
     grid-row-end: -4;
 }
 
-.keys-key[data-symbol="6"] {
+.keys-keyContainer:has(.keys-key[data-symbol="6"]) {
     grid-column-start: 3;
     grid-row-start: -3;
     grid-row-end: -4;
 }
 
-.keys-key[data-symbol="7"] {
+.keys-keyContainer:has(.keys-key[data-symbol="7"]) {
     grid-column-start: 1;
     grid-row-start: -4;
     grid-row-end: -5;
 }
 
-.keys-key[data-symbol="8"] {
+.keys-keyContainer:has(.keys-key[data-symbol="8"]) {
     grid-column-start: 2;
     grid-row-start: -4;
     grid-row-end: -5;
 }
 
-.keys-key[data-symbol="9"] {
+.keys-keyContainer:has(.keys-key[data-symbol="9"]) {
     grid-column-start: 3;
     grid-row-start: -4;
     grid-row-end: -5;
 }
 
-.keys-key[data-symbol="+"] {
+.keys-keyContainer:has(.keys-key[data-symbol="+"]) {
     grid-column-start: 4;
     grid-row-start: -2;
     grid-row-end: -3;
 }
 
-.keys-key[data-symbol="-"] {
+.keys-keyContainer:has(.keys-key[data-symbol="-"]) {
     grid-column-start: 4;
     grid-row-start: -3;
     grid-row-end: -4;
 }
 
-.keys-key[data-symbol="*"] {
+.keys-keyContainer:has(.keys-key[data-symbol="*"]) {
     grid-column-start: 4;
     grid-row-start: -4;
     grid-row-end: -5;
 }
 
-.keys-key[data-symbol="/"] {
+.keys-keyContainer:has(.keys-key[data-symbol="/"]) {
     grid-column-start: 4;
     grid-row-start: -5;
     grid-row-end: -6;
 }
 
-.keys-key[data-symbol="="] {
+.keys-keyContainer:has(.keys-key[data-symbol="="]) {
     grid-column-start: 4;
     grid-row-start: -1;
     grid-row-end: -2;
 }
 
-.keys-key[data-symbol="⌫"] {
+.keys-keyContainer:has(.keys-key[data-symbol="⌫"]) {
     grid-column-start: 1;
     grid-row-start: -5;
     grid-row-end: -6;
 }
 
-.keys-key[data-symbol="CE"] {
+.keys-keyContainer:has(.keys-key[data-symbol="CE"]) {
     grid-column-start: 2;
     grid-row-start: -5;
     grid-row-end: -6;
 }
 
-.keys-key[data-symbol="C"] {
+.keys-keyContainer:has(.keys-key[data-symbol="C"]) {
     grid-column-start: 3;
     grid-row-start: -5;
     grid-row-end: -6;

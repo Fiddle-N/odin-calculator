@@ -4,41 +4,86 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="style.css">
     <script src="script.js" defer></script>
     <title>Odin Calculator</title>
 </head>
 <body>
-    <div class="displayHistory"></div>
-    <div class="display">0</div>
-    <div class="keys">
-        <button type="button" class="keys-key keys-deleter" id="keys-backspace" data-symbol="⌫"></button>
-        <button type="button" class="keys-key keys-deleter" id="keys-CE" data-symbol="CE"></button>
-        <button type="button" class="keys-key keys-deleter" id="keys-C" data-symbol="C"></button>
+    <div class="calculator">
+        <div class="displayHistory"></div>
+        <div class="display">0</div>
+        <div class="keys">
+            <div class="keys-keyContainer">
+                <button type="button" class="keys-key keys-deleter" id="keys-backspace" data-symbol="⌫"></button>
+            </div>
+            <div class="keys-keyContainer">
+                <button type="button" class="keys-key keys-deleter" id="keys-CE" data-symbol="CE"></button>
+            </div>
+            <div class="keys-keyContainer">
+                <button type="button" class="keys-key keys-deleter" id="keys-C" data-symbol="C"></button>
+            </div>
 
-        <button type="button" class="keys-key keys-operator keys-disableOnZeroDivision" data-symbol="+"></button>
-        <button type="button" class="keys-key keys-operator keys-disableOnZeroDivision" data-symbol="-"></button>
-        <button type="button" class="keys-key keys-operator keys-disableOnZeroDivision" data-symbol="*"></button>
-        <button type="button" class="keys-key keys-operator keys-disableOnZeroDivision" data-symbol="/"></button>  
+            <div class="keys-keyContainer">
+                <button type="button" class="keys-key keys-operator keys-disableOnZeroDivision" data-symbol="+"></button>
+            </div>
+            <div class="keys-keyContainer">
+                <button type="button" class="keys-key keys-operator keys-disableOnZeroDivision" data-symbol="-"></button>
+            </div>
+            <div class="keys-keyContainer">
+                <button type="button" class="keys-key keys-operator keys-disableOnZeroDivision" data-symbol="*"></button>
+            </div>
+            <div class="keys-keyContainer">
+                <button type="button" class="keys-key keys-operator keys-disableOnZeroDivision" data-symbol="/"></button>
+            </div>  
 
-        <button type="button" class="keys-key keys-digit" data-symbol="0"></button>
-        <button type="button" class="keys-key keys-digit" data-symbol="1"></button>
-        <button type="button" class="keys-key keys-digit" data-symbol="2"></button>
-        <button type="button" class="keys-key keys-digit" data-symbol="3"></button>
-        <button type="button" class="keys-key keys-digit" data-symbol="4"></button>
-        <button type="button" class="keys-key keys-digit" data-symbol="5"></button>
-        <button type="button" class="keys-key keys-digit" data-symbol="6"></button>
-        <button type="button" class="keys-key keys-digit" data-symbol="7"></button>
-        <button type="button" class="keys-key keys-digit" data-symbol="8"></button>
-        <button type="button" class="keys-key keys-digit" data-symbol="9"></button>
+            <div class="keys-keyContainer">
+                <button type="button" class="keys-key keys-digit" data-symbol="0"></button>
+            </div>
+            <div class="keys-keyContainer">
+                <button type="button" class="keys-key keys-digit" data-symbol="1"></button>
+            </div>
+            <div class="keys-keyContainer">
+                <button type="button" class="keys-key keys-digit" data-symbol="2"></button>
+            </div>
+            <div class="keys-keyContainer">
+                <button type="button" class="keys-key keys-digit" data-symbol="3"></button>
+            </div>
+            <div class="keys-keyContainer">
+                <button type="button" class="keys-key keys-digit" data-symbol="4"></button>
+            </div>
+            <div class="keys-keyContainer">
+                <button type="button" class="keys-key keys-digit" data-symbol="5"></button>
+            </div>
+            <div class="keys-keyContainer">
+                <button type="button" class="keys-key keys-digit" data-symbol="6"></button>
+            </div>
+            <div class="keys-keyContainer">
+                <button type="button" class="keys-key keys-digit" data-symbol="7"></button>
+            </div>
+            <div class="keys-keyContainer">
+                <button type="button" class="keys-key keys-digit" data-symbol="8"></button>
+            </div>
+            <div class="keys-keyContainer">
+                <button type="button" class="keys-key keys-digit" data-symbol="9"></button>
+            </div>
 
 
-        <button type="button" class="keys-key keys-plusMinus keys-disableOnZeroDivision" data-symbol="±"></button>
+            <div class="keys-keyContainer">
+                <button type="button" class="keys-key keys-plusMinus keys-disableOnZeroDivision" data-symbol="±"></button>
+            </div>
 
-        <button type="button" class="keys-key keys-decimalPoint keys-disableOnZeroDivision" data-symbol="."></button>
+            <div class="keys-keyContainer">
+                <button type="button" class="keys-key keys-decimalPoint keys-disableOnZeroDivision" data-symbol="."></button>
+            </div>
 
-        <button type="button" class="keys-key keys-equals" data-symbol="="></button>
+            <div class="keys-keyContainer">
+                <button type="button" class="keys-key keys-equals" data-symbol="="></button>
+            </div>
 
+        </div>
     </div>
 </body>
 </html>
