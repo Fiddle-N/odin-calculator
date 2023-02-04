@@ -1,3 +1,8 @@
+:root {
+    --bg-colour: hsl(0, 0%, 95%);
+    --key-border-colour: hsl(0, 0%, 90%);
+}
+
 
 * {
     box-sizing: border-box;
@@ -9,7 +14,7 @@ html {
 }
 
 body {
-    background-color: hsl(0, 0%, 95%);
+    background-color: var(--bg-colour);
     height: 100%;
     min-height: 525px;
     margin: 0;
@@ -78,13 +83,13 @@ button {
 .keys-key {
     flex: 1;
     font-size: 1.2rem;
-    border:solid hsl(0, 0%, 90%) 1px;
+    border:solid var(--key-border-colour) 1px;
     border-bottom: solid hsl(0, 0%, 80%) 1px;
     border-radius: 5px;
 }
 
 .keys-key:active {
-    border-bottom: solid hsl(0, 0%, 90%) 1px;
+    border-bottom: solid var(--key-border-colour) 1px;
 }
 
 
@@ -258,4 +263,9 @@ button {
 .keys-equals:active {
     color: rgb(173, 201, 223);
     background-color: rgb(49, 121, 175);
+}
+
+.keys-disableOnZeroDivision:disabled {
+    background-color: var(--bg-colour);
+    border-bottom: solid var(--key-border-colour) 1px;
 }
