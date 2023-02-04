@@ -41,6 +41,7 @@ button {
     display: grid;
     grid-template-rows: repeat(5, 1fr);
     grid-template-columns: repeat(4, 1fr);
+    gap: 2px;
 }
 
 .keys-keyContainer {
@@ -51,6 +52,9 @@ button {
 .keys-key {
     flex: 1;
     font-size: 1.2rem;
+    border:solid hsl(0, 0%, 90%) 1px;
+    border-bottom: solid hsl(0, 0%, 80%) 1px;
+    border-radius: 3px;
 }
 
 @container (width > 115px) and (height > 85px) {
@@ -186,14 +190,14 @@ button {
 }
 
 .keys-nonDigit {
-    background-color: hsl(0, 0%, 96%);
+    background-color: hsl(0, 0%, 98%);
 }
 
 .keys-digit {
-    background-color: hsl(0, 0%, 99%);
+    background-color: hsl(0, 0%, 100%);
 }
 
 .keys-equals {
-    background-color: rgb(25, 106, 167);
+    background-color: rgb(0, 90, 158);
     color: white;
 }
