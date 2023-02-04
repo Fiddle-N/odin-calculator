@@ -232,7 +232,8 @@ const calc = {
             return;
         }
 
-        if (this.op === '/' && this.display === '0'){
+        if (this.op === '/' && Number(this.display) === 0){
+            // zero division error
             this.num2 = Number(this.display);
             this.display = 'Cannot divide by zero';
             this.calcUIUpdate.disableKeyUponZeroDiv();
