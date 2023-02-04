@@ -57,6 +57,11 @@ button {
     border-radius: 3px;
 }
 
+.keys-key:active {
+    border-bottom: solid hsl(0, 0%, 90%) 1px;
+}
+
+
 @container (width > 115px) and (height > 85px) {
     .keys-key {
         font-size: 1.6rem;
@@ -189,15 +194,42 @@ button {
     grid-row-end: -6;
 }
 
-.keys-nonDigit {
-    background-color: hsl(0, 0%, 98%);
+.keys-numeric {
+    background-color: rgb(255, 255, 255);
 }
 
-.keys-digit {
-    background-color: hsl(0, 0%, 100%);
+.keys-numeric:hover {
+    background-color: rgb(252, 252, 252);
+}
+
+.keys-numeric:active {
+    color: rgb(95, 95, 95);
+    background-color: rgb(249, 249, 249);
+}
+
+.keys-nonNumeric {
+    background-color: rgb(249, 249, 249);
+}
+
+.keys-nonNumeric:hover {
+    background-color: rgb(246, 246, 246);
+}
+
+.keys-nonNumeric:active {
+    color: rgb(93, 93, 93);
+    background-color: rgb(244, 244, 244);
 }
 
 .keys-equals {
+    color: rgb(218, 231, 241);
     background-color: rgb(0, 90, 158);
-    color: white;
+}
+
+.keys-equals:hover {
+    background-color: rgb(25, 106, 167);
+}
+
+.keys-equals:active {
+    color: rgb(173, 201, 223);
+    background-color: rgb(49, 121, 175);
 }
