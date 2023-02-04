@@ -30,7 +30,7 @@ const OPERATOR_FNS = {
 
 const OP_TO_OP_STR = {
     '+': '+',
-    '-': '-',
+    '-': '−',
     '*': '×',
     '/': '÷',
 };
