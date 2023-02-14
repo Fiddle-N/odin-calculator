@@ -24,7 +24,6 @@ body {
 }
 
 button {
-    -webkit-appearance: none;   /* remove iOS button styling */
     border: none;
     font-family: inherit;
 }
