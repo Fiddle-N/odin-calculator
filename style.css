@@ -1,11 +1,70 @@
-:root {
-    --bg-colour: hsl(0, 0%, 95%);
-    --key-border-colour: hsl(0, 0%, 90%);
-}
-
 
 * {
     box-sizing: border-box;
+}
+
+@media (prefers-color-scheme: light) {
+    :root {
+        --bg-colour: hsl(0, 0%, 95%);
+        --txt-colour: black;
+
+        --display-history-txt-colour: hsl(0, 0%, 38%);
+
+        --key-border-colour: hsl(0, 0%, 90%);
+        --key-border-top-colour: hsl(0, 0%, 90%);
+        --key-border-bottom-colour: hsl(0, 0%, 80%);
+
+        --key-numeric-bg-colour: rgb(255, 255, 255);
+        --key-numeric-bg-colour-hover: rgb(252, 252, 252);
+        --key-numeric-txt-colour-active: rgb(93, 93, 93);
+        --key-numeric-bg-colour-active: rgb(244, 244, 244);
+
+        --key-non-numeric-bg-colour: rgb(249, 249, 249);
+        --key-non-numeric-bg-colour-hover: rgb(246, 246, 246);
+        --key-non-numeric-txt-colour-active: rgb(93, 93, 93);
+        --key-non-numeric-bg-colour-active: rgb(244, 244, 244);
+
+        --key-equals-txt-colour: rgb(218, 231, 241);
+        --key-equals-bg-colour: rgb(0, 90, 158);
+        --key-equals-bg-colour-hover: rgb(25, 106, 167);
+        --key-equals-txt-colour-active: rgb(173, 201, 223);
+        --key-equals-bg-colour-active: rgb(49, 121, 175);
+
+        --key-disabled-txt-colour: rgb(162, 162, 162);        
+        --key-disabled-bg-colour: rgb(243, 243, 243);
+    }
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --bg-colour: hsl(0, 0%, 13%);
+        --txt-colour: white;
+
+        --display-history-txt-colour: hsl(0, 0%, 65%);
+
+        --key-border-colour: hsl(0, 0%, 19%);
+        --key-border-top-colour: hsl(0, 0%, 21%);
+        --key-border-bottom-colour: hsl(0, 0%, 19%);
+
+        --key-numeric-bg-colour: rgb(59, 59, 59);
+        --key-numeric-bg-colour-hover: rgb(50, 50, 50);
+        --key-numeric-txt-colour-active: rgb(206, 206, 206);
+        --key-numeric-bg-colour-active: rgb(40, 40, 40);
+
+        --key-non-numeric-bg-colour: rgb(50, 50, 50);
+        --key-non-numeric-bg-colour-hover: rgb(59, 59, 59);
+        --key-non-numeric-txt-colour-active: rgb(208, 208, 208);
+        --key-non-numeric-bg-colour-active: rgb(50, 50, 50);
+
+        --key-equals-txt-colour: rgb(33, 52, 66);
+        --key-equals-bg-colour: rgb(118, 185, 237);
+        --key-equals-bg-colour-hover: rgb(109, 169, 216);
+        --key-equals-txt-colour-active: rgb(64, 98, 124);
+        --key-equals-bg-colour-active: rgb(105, 154, 195);
+        
+        --key-disabled-txt-colour: rgb(118, 118, 118);        
+        --key-disabled-bg-colour: rgb(40, 40, 40);
+    }
 }
 
 html {
@@ -15,7 +74,7 @@ html {
 
 body {
     background-color: var(--bg-colour);
-    color: black;
+    color: var(--txt-colour);
     height: 100%;
     min-height: 525px;
     margin: 0;
@@ -25,7 +84,10 @@ body {
 
 button {
     border: none;
+    margin: 0;
+    padding: 0;
     font-family: inherit;
+    color: inherit;
 }
 
 .calculator {
@@ -44,12 +106,10 @@ button {
 }
 
 .displayHistory {
-    color: hsl(0, 0%, 35%);
-    /* border: solid 1px black; */
+    color: var(--display-history-txt-colour);
     font-size: 0.9rem;
     height: 1.5rem;
     text-align: right;
-    /* margin-top: 40px; */
 }
 
 .display {
@@ -84,13 +144,15 @@ button {
 .keys-key {
     flex: 1;
     font-size: 1.2rem;
-    border:solid var(--key-border-colour) 1px;
-    border-bottom: solid hsl(0, 0%, 80%) 1px;
+    border: solid var(--key-border-colour) 1px;
+    border-top-color: var(--key-border-top-colour);
+    border-bottom-color: var(--key-border-bottom-colour);
     border-radius: 5px;
 }
 
 .keys-key:active {
-    border-bottom: solid var(--key-border-colour) 1px;
+    border-top-color: var(--key-border-colour);
+    border-bottom-color: var(--key-border-colour);
 }
 
 
@@ -227,46 +289,50 @@ button {
 }
 
 .keys-numeric {
-    background-color: rgb(255, 255, 255);
+    background-color: var(--key-numeric-bg-colour);
 }
 
 .keys-numeric:hover {
-    background-color: rgb(252, 252, 252);
+    background-color: var(--key-numeric-bg-colour-hover);
 }
 
 .keys-numeric:active {
-    color: rgb(95, 95, 95);
-    background-color: rgb(249, 249, 249);
+    color: var(--key-numeric-txt-colour-active);
+    background-color: var(--key-numeric-bg-colour-active);
 }
 
 .keys-nonNumeric {
-    background-color: rgb(249, 249, 249);
+    background-color: var(--key-non-numeric-bg-colour);
 }
 
 .keys-nonNumeric:hover {
-    background-color: rgb(246, 246, 246);
+    background-color: var(--key-non-numeric-bg-colour-hover);
 }
 
 .keys-nonNumeric:active {
-    color: rgb(93, 93, 93);
-    background-color: rgb(244, 244, 244);
+    color: var(--key-non-numeric-txt-colour-active);
+    background-color: var(--key-non-numeric-bg-colour-active);
 }
 
 .keys-equals {
-    color: rgb(218, 231, 241);
-    background-color: rgb(0, 90, 158);
+    color: var(--key-equals-txt-colour);
+    background-color: var(--key-equals-bg-colour);
 }
 
 .keys-equals:hover {
-    background-color: rgb(25, 106, 167);
+    background-color: var(--key-equals-bg-colour-hover);
 }
 
 .keys-equals:active {
-    color: rgb(173, 201, 223);
-    background-color: rgb(49, 121, 175);
+    color: var(--key-equals-txt-colour-active);
+    background-color: var(--key-equals-bg-colour-active);
 }
 
-.keys-disableOnZeroDivision:disabled {
-    background-color: var(--bg-colour);
-    border-bottom: solid var(--key-border-colour) 1px;
+.keys-disableOnZeroDivision:disabled, 
+.keys-disableOnZeroDivision:disabled:hover,
+.keys-disableOnZeroDivision:disabled:active {
+    color: var(--key-disabled-txt-colour);
+    background-color: var(--key-disabled-bg-colour);
+    border-top-color: var(--key-border-colour);
+    border-bottom-color: var(--key-border-colour);
 }
