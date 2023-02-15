@@ -345,16 +345,10 @@ function setTypingEventListener() {
 }
 
 
-function setDoubleTapDisable() {
-    window.addEventListener('dblclick', (event) => event.preventDefault());
-}
-
-
 function main() {
     setKeyTxt();
     setKeyEventListeners();
     setTypingEventListener();
-    setDoubleTapDisable();
 }
 
 
