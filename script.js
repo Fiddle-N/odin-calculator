@@ -1,6 +1,18 @@
 "use strict";
 
 
+function countDigits(str) {
+    let count = 0;
+    for (let char of str) {
+        if (char >= "0" && char <= "9") {
+            count++;
+        }
+    }
+    return count;
+
+}
+
+
 function add(num1, num2) {
     return num1 + num2;
 }
@@ -120,7 +132,7 @@ const calc = {
     },
 
     set display(txt) {
-        this.calcUIUpdate.display = txt;
+         this.calcUIUpdate.display = txt;
     },
 
     get displayHistory() {
@@ -132,6 +144,10 @@ const calc = {
     },
 
     _appendDisplayDigit(digit) {
+        if (countDigits(this.display) >= 16) {
+            return;
+        }
+
         if (this.display === '0') {
             this.display = digit;
         }
