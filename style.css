@@ -114,8 +114,8 @@ button {
 }
 
 .display {
-    height: 100px;
-    flex: 0.2;
+    height: 140px;
+    flex: 0.25;
     text-align: right;
     font-size: clamp(1rem, calc(100vw / 15), 2.8rem);
     font-weight: 600;
